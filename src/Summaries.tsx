@@ -8,7 +8,7 @@ export function Summaries ({ summariesList }: IProps) {
   return (
     <div className="summaries-list">
       {summariesList && summariesList.map(summary => {
-        const date = new Date(summary.created)
+        const date = new Date(summary.created * 1000)
         return (
           <>
             <p>{`Date: ${date.toLocaleString('en-GB', { timeZone: 'UTC' })}`}</p>
