@@ -1,5 +1,3 @@
-import './index.css';
-
 (() => {
   const tooltip = document.createElement('button')
   tooltip.innerHTML = '<p id="tooltip" style="text-align:center; padding: 4px">Summarise text</p>'
