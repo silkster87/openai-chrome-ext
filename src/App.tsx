@@ -10,14 +10,14 @@ import Box from '@mui/material/Box'
 function App () {
   const [isEnabled, setIsEnabled] = useState<boolean>(false)
   const [error, setError] = useState<string>('')
-  const [summariesList, setSummariesList] = useState<Summary[] | null>(null)
+  const [summariesList, setSummariesList] = useState<Summary[] | null | undefined >(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  async function getSummaries () {
-    const backendUrl = process.env.REACT_APP_BACKEND_URL
-      ? process.env.REACT_APP_BACKEND_URL
-      : 'http://localhost:3000'
+  const backendUrl = process.env.REACT_APP_BACKEND_URL
+    ? process.env.REACT_APP_BACKEND_URL
+    : 'http://localhost:3000'
 
+  async function getSummaries () {
     try {
       setIsLoading(true)
       const response = await axios.get(`${backendUrl}/openai/summaries`)
@@ -43,6 +43,25 @@ function App () {
     }
   }, [isEnabled])
 
+  async function deleteSummary (id: string) {
+    try {
+      const response = await axios.delete(`${backendUrl}/openai`, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: { id }
+      })
+
+      if (response.data && response.data.acknowledged) {
+        setSummariesList(prev => prev?.filter(el => el._id !== id))
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message)
+      }
+    }
+  }
+
   return (
     <div className="App">
       <header>
@@ -63,7 +82,7 @@ function App () {
           <CircularProgress />
         </Box>
       }
-      {isEnabled && summariesList && <Summaries summariesList={summariesList}/>}
+      {isEnabled && summariesList && <Summaries summariesList={summariesList} deleteSummary={deleteSummary}/>}
     </div>
   )
 }
