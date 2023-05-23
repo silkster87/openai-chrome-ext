@@ -1,10 +1,16 @@
-const path = require('path')
-const HTMLPlugin = require('html-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
-const Dotenv = require('dotenv-webpack')
+import path from 'path'
+import HTMLPlugin from 'html-webpack-plugin'
+import CopyPlugin from 'copy-webpack-plugin'
+import Dotenv from 'dotenv-webpack'
+import { fileURLToPath } from 'url'
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url)
+
+const __dirname = path.dirname(__filename)
+
+export default {
   entry: {
+    popup: path.resolve('./src/App.tsx'),
     index: './src/index.tsx'
   },
   mode: 'production',
@@ -46,6 +52,13 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist/js'),
     filename: '[name].js'
+  },
+  optimization: {
+    splitChunks: {
+      chunks (chunk) {
+        return chunk.name !== 'contentScript'
+      }
+    }
   }
 }
 
