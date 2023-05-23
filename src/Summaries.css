@@ -1,0 +1,30 @@
+.delete-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: #85c7f2;
+  cursor: pointer;
+  height: 32px;
+  width: 32px;
+  border-radius: 8px;
+}
+
+.delete-btn:hover {
+  background-color: lightcoral;
+}
+
+.summary-container {
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 8px;
+}
+
+.summary-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
