@@ -31,12 +31,16 @@ function App () {
 
   function handleSwitch () {
     setIsEnabled(!isEnabled)
-
     setError('')
   }
 
   useEffect(() => {
-    if (isEnabled) getSummaries()
+    if (isEnabled) {
+      getSummaries()
+      window.localStorage.setItem('openaiSummaries', 'true')
+    } else {
+      window.localStorage.setItem('openaiSummaries', 'false')
+    }
   }, [isEnabled])
 
   return (

@@ -12,6 +12,9 @@
   tooltip.addEventListener('click', fetchSummarisedText)
 
   function selectableTextAreaMouseUp (event) {
+    // const isEnabled = window.localStorage.getItem('openaiSummaries')
+    // console.log('isEnabled: ', isEnabled)
+    // if (isEnabled === 'false' || !isEnabled) return
     const selectedText = window.getSelection()?.toString().trim()
     if (selectedText.length && event.target.id !== 'tooltip') {
       const x = event.pageX
@@ -26,7 +29,6 @@
   }
 
   function documentMouseDown (event) {
-    console.log('mouse down:', event.target)
     if (event.target.id !== 'tooltip' && getComputedStyle(tooltip).display === 'block') {
       tooltip.style.display = 'none'
       window.getSelection().empty()
@@ -46,10 +48,10 @@
 
     try {
       fetch(request).then(response => response.json()).then(json => {
-        document.getElementById('tooltip').innerHTML = json.text
+        document.getElementById('tooltip').textContent = json.text
       })
     } catch (error) {
-      document.getElementById('tooltip').innerHTML = error.message
+      document.getElementById('tooltip').textContent = error.message
     }
   }
 
