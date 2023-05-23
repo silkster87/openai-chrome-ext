@@ -1,3 +1,4 @@
+import './index.css';
 
 (() => {
   const tooltip = document.createElement('button')
@@ -5,10 +6,8 @@
   tooltip.style.display = 'block'
   tooltip.style.color = 'black'
   tooltip.style.width = '300px'
-  tooltip.style.height = '50px'
   tooltip.style.zIndex = '10'
   tooltip.style.position = 'absolute'
-  tooltip.style.fontSize = '1.25rem'
   tooltip.style.borderRadius = '8px'
   tooltip.style.cursor = 'pointer'
   tooltip.style.backgroundColor = '#c0dded'
@@ -36,9 +35,24 @@
     }
   }
 
-  function fetchSummarisedText (event) {
+  async function fetchSummarisedText (event) {
     const selectedText = window.getSelection()?.toString().trim()
-    console.log('Send text: ', selectedText)
+
+    const request = new Request('http://localhost:3000/openai', {
+      method: 'POST',
+      body: JSON.stringify({ text: selectedText }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    try {
+      fetch(request).then(response => response.json()).then(json => {
+        document.getElementById('tooltip').innerHTML = json.text
+      })
+    } catch (error) {
+      document.getElementById('tooltip').innerHTML = error.message
+    }
   }
 
   document.addEventListener('mouseup', selectableTextAreaMouseUp)
