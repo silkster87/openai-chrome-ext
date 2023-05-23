@@ -14,6 +14,7 @@ export default {
     index: './src/index.tsx'
   },
   mode: 'production',
+  performance: { hints: false },
   module: {
     rules: [
       {
